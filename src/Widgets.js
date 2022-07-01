@@ -10,7 +10,7 @@
 		this.ParentComponent = inputTypeComponent ;
 
 		this.IdCriteriaGroupe = this.ParentComponent.ParentComponent.parentCriteriaGroup.id ;
-		this.html = '<input id="ecgrw-'+this.IdCriteriaGroupe+'-input" /><input id="ecgrw-'+this.IdCriteriaGroupe+'-input-value" type="hidden"/>' ;
+		this.html = '<input id="ecgrw-'+this.IdCriteriaGroupe+'-input" /><input id="ecgrw-'+this.IdCriteriaGroupe+'-input-value" type="hidden"/><span class="autocomplete-loader"><span class="load">'+UiuxConfig.ICON_LOOADER+'</span><span class="message"></span></span>' ;
 		
 		this.init = function init() {
 			var startClassGroup_value = this.ParentComponent.ParentComponent.parentCriteriaGroup.StartClassGroup.value_selected ;
@@ -20,6 +20,7 @@
 			var id_inputs = this.IdCriteriaGroupe ;			
 			var itc_obj = this.ParentComponent;	
 			var isMatch = autocompleteHandler.enableMatch(startClassGroup_value, ObjectPropertyGroup_value, endClassGroup_value);
+			var this_html = $(this.html) ;
 			
 			var options = {
 				// ajaxSettings: {crossDomain: true, type: 'GET'} ,
@@ -35,23 +36,73 @@
 				
 				adjustWidth: false,
 
+				requestDelay: 600,
+
 				ajaxSettings: {
 					crossDomain: true,
 					dataType: "json",
 					method: "GET",
+					timeout: 30000,
 					data: {
 				  		dataType: "json"
+					},
+					beforeSend: function( xhr, obj ) {
+						
+						console.log(obj);
+						$(itc_obj.html).find('.autocomplete-loader').addClass('show');
+						if (obj.data == false) {
+							xhr.abort();
+							console.log('String length < 5, dont send query') ;
+							$(itc_obj.html).find('.autocomplete-loader .message').first().text('Please 3 characters min');
+						} else {
+							console.log('Send query....') ;
+							$(itc_obj.html).find('.autocomplete-loader .load').first().addClass('show');
+							$(itc_obj.html).find('.autocomplete-loader .message').first().text('Request send....');
+						}
+					},
+					error: function( xhr ) {
+						console.log('no results...');
+						$(itc_obj.html).find('.autocomplete-loader .message').first().text('Sorry no results...');
+					},
+					success: function(data ) {
+						console.log('Recive data');
+						console.log(data); 
+						var results = autocompleteHandler.listLocation(startClassGroup_value, ObjectPropertyGroup_value, endClassGroup_value, data)
+						console.log(results) ;
+						if (results.length == 0) {
+							$(itc_obj.html).find('.autocomplete-loader .message').first().text('No result');
+						} else {
+							$(itc_obj.html).find('.autocomplete-loader').removeClass('show');
+						}
+					},
+					complete: function( xhr ) {
+						console.log('Process end, wayting press key');
+						$(itc_obj.html).find('.autocomplete-loader .load').first().removeClass('show');
+						//$(itc_obj.html).find('.autocomplete-loader .message').first().text('Waiting key press');
 					}
 				},
-
+				
 				preparePostData: function(data) {
 					data.phrase = $('#ecgrw-'+id_inputs+'-input').val();
+					if (data.phrase.length < 3) {
+						return false ;
+					}
 					return data;
 				},
 
 				list: {
 					match: {
 						enabled: isMatch
+					},
+
+					onKeyEnterEvent: function() {
+						console.log('Analyse string....') ;
+					},
+					onLoadEvent: function() {
+						console.log('Results loaded....') ;
+					},
+					onShowListEvent: function() {
+						console.log('See suggestions') ;
 					},
 
 					onChooseEvent: function() {
@@ -64,8 +115,6 @@
 						$(itc_obj).trigger("change");
 					}
 				},
-
-				requestDelay: 400
 			};
 			//Need to add in html befor
 			

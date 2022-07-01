@@ -351,7 +351,8 @@
       ],
       "domain": "http://dbpedia.org/ontology/Country",
       "range": "http://labs.sparna.fr/sparnatural-demo-dbpedia/onto#Person",
-      "sparqlString": "^(<http://dbpedia.org/ontology/birthPlace>/<http://dbpedia.org/ontology/country>)"
+      "sparqlString": "^(<http://dbpedia.org/ontology/birthPlace>/<http://dbpedia.org/ontology/country>)",
+      "datasource" : "datasources:search_rdfslabel_bifcontains"
     },
     {
       "@id" : "http://labs.sparna.fr/sparnatural-demo-dbpedia/onto#diedIn",
@@ -375,7 +376,8 @@
       ],
       "domain": "http://dbpedia.org/ontology/Country",
       "range": "http://labs.sparna.fr/sparnatural-demo-dbpedia/onto#Person",
-      "sparqlString": "^(<http://dbpedia.org/ontology/deathPlace>/<http://dbpedia.org/ontology/country>)"
+      "sparqlString": "^(<http://dbpedia.org/ontology/deathPlace>/<http://dbpedia.org/ontology/country>)",
+      "datasource" : "datasources:search_rdfslabel_bifcontains"
     },
     {
       "@id" : "http://dbpedia.org/ontology/deathDate",
@@ -615,22 +617,26 @@ WHERE {
       prefixesPostProcess = function(queryString, queryJson) {
         if(queryString.indexOf("rdf-schema#") == -1) {
           queryString = queryString.replace("SELECT ", "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \nSELECT ");
-        }         
+        }
         return queryString;
       }
 
       isPrimaryTopicOfPostProcess = function(queryString, queryJson) {
-        queryString = queryString.replace(new RegExp('\n\}'), "  ?this <http://xmlns.com/foaf/0.1/isPrimaryTopicOf> ?wikipedia \n}");
+        //queryString = queryString.replace(new RegExp('\n\}'), "  ?this <http://xmlns.com/foaf/0.1/isPrimaryTopicOf> ?wikipedia \n}");
+        queryString = queryString.replace(new RegExp('}$'), "  ?this <http://xmlns.com/foaf/0.1/isPrimaryTopicOf> ?wikipedia \n}");
         return queryString;
       }
 
       rdfsLabelPostProcess = function(queryString, queryJson) {
-        queryString = queryString.replace(new RegExp('\n\}'), "  ?this rdfs:label ?label FILTER(lang(?label) = 'fr') \n}");
+        //queryString = queryString.replace(new RegExp('\n\}'), "  ?this rdfs:label ?label FILTER(lang(?label) = 'fr') \n}");
+        queryString = queryString.replace(new RegExp('}$'), "  ?this rdfs:label ?label FILTER(lang(?label) = 'fr') \n}");
         return queryString;
       }
 
       orderByPostProcess = function(queryString, queryJson) {
-        queryString = queryString + "\nLIMIT 5000";
+        //queryString = queryString + "\nLIMIT 5000";
+        //queryString = queryString.replace("SELECT DISTINCT ?this", "SELECT DISTINCT (STR(?label) AS ?nom) ?wikipedia ?this");
+        queryString = queryString.replace(new RegExp('}$'), "}\nORDER BY ?label LIMIT 5000");
         queryString = queryString.replace("SELECT DISTINCT ?this", "SELECT DISTINCT (STR(?label) AS ?nom) ?wikipedia ?this");
         return queryString;
       }
