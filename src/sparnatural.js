@@ -1872,7 +1872,7 @@ UiuxConfig = require("./UiuxConfig.js");
 			    	);
 				}
 
-				this.widgetComponent = new AutoCompleteWidget(this, handler) ;
+				this.widgetComponent = new AutoCompleteWidget(this, handler, langSearch) ;
 				this.cssClasses.AutocompleteWidget = true ;
 			    break;
 			  case Config.GRAPHDB_SEARCH_PROPERTY:

@@ -5,12 +5,13 @@
 	require('select2/dist/css/select2.css');
 	const tippy = require('tippy.js').default;
 	
-	AutoCompleteWidget = function(inputTypeComponent, autocompleteHandler) {
+	AutoCompleteWidget = function(inputTypeComponent, autocompleteHandler, langSearch) {
 		this.autocompleteHandler = autocompleteHandler;
 		this.ParentComponent = inputTypeComponent ;
 
 		this.IdCriteriaGroupe = this.ParentComponent.ParentComponent.parentCriteriaGroup.id ;
 		this.html = '<input id="ecgrw-'+this.IdCriteriaGroupe+'-input" /><input id="ecgrw-'+this.IdCriteriaGroupe+'-input-value" type="hidden"/><span class="autocomplete-loader"><span class="load">'+UiuxConfig.ICON_LOOADER+'</span><span class="message"></span></span>' ;
+		var langSearch = langSearch;
 		
 		this.init = function init() {
 			var startClassGroup_value = this.ParentComponent.ParentComponent.parentCriteriaGroup.StartClassGroup.value_selected ;
@@ -48,37 +49,34 @@
 					},
 					beforeSend: function( xhr, obj ) {
 						
-						console.log(obj);
 						$(itc_obj.html).find('.autocomplete-loader').addClass('show');
 						if (obj.data == false) {
+							//if false string length < 3, dont send query
 							xhr.abort();
-							console.log('String length < 5, dont send query') ;
-							$(itc_obj.html).find('.autocomplete-loader .message').first().text('Please 3 characters min');
 						} else {
-							console.log('Send query....') ;
+							//Request is send, show loader
+							$(itc_obj.html).find('.autocomplete-loader .message').first().text('');
 							$(itc_obj.html).find('.autocomplete-loader .load').first().addClass('show');
-							$(itc_obj.html).find('.autocomplete-loader .message').first().text('Request send....');
 						}
 					},
 					error: function( xhr ) {
-						console.log('no results...');
-						$(itc_obj.html).find('.autocomplete-loader .message').first().text('Sorry no results...');
+						// No results, notify user
+						$(itc_obj.html).find('.autocomplete-loader .message').first().text(langSearch.AutoCompletWidgetNoResult);
 					},
 					success: function(data ) {
-						console.log('Recive data');
-						console.log(data); 
+						// Data is retuned
 						var results = autocompleteHandler.listLocation(startClassGroup_value, ObjectPropertyGroup_value, endClassGroup_value, data)
-						console.log(results) ;
 						if (results.length == 0) {
-							$(itc_obj.html).find('.autocomplete-loader .message').first().text('No result');
+							// No sugestion in data, notify user
+							$(itc_obj.html).find('.autocomplete-loader .message').first().text(langSearch.AutoCompletWidgetNoResult);
 						} else {
+							// Sugestions are displayed, hide notification element
 							$(itc_obj.html).find('.autocomplete-loader').removeClass('show');
 						}
 					},
 					complete: function( xhr ) {
-						console.log('Process end, wayting press key');
+						// For all cases, at end of request, hide loader
 						$(itc_obj.html).find('.autocomplete-loader .load').first().removeClass('show');
-						//$(itc_obj.html).find('.autocomplete-loader .message').first().text('Waiting key press');
 					}
 				},
 				
@@ -95,19 +93,8 @@
 						enabled: isMatch
 					},
 
-					onKeyEnterEvent: function() {
-						console.log('Analyse string....') ;
-					},
-					onLoadEvent: function() {
-						console.log('Results loaded....') ;
-					},
-					onShowListEvent: function() {
-						console.log('See suggestions') ;
-					},
-
 					onChooseEvent: function() {
 						var value = $('#ecgrw-'+id_inputs+'-input').getSelectedItemData();
-						
 						var label = autocompleteHandler.elementLabel(value) ; 
 						var uri = autocompleteHandler.elementUri(value) ; 
 						$('#ecgrw-'+id_inputs+'-input').val(label)
@@ -117,8 +104,11 @@
 				},
 			};
 			//Need to add in html befor
-			
 			$('#ecgrw-'+id_inputs+'-input').easyAutocomplete(options);
+
+			document.getElementById('ecgrw-'+id_inputs+'-input').onfocusout = function(){
+				$(itc_obj.html).find('.autocomplete-loader').removeClass('show');
+			};
 		}
 
 		this.getValue = function() {

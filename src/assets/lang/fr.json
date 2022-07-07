@@ -33,5 +33,6 @@
 	"false": "Faux",
 	"TreeWidgetNoData": "Aucune information trouvée...",
 	"TreeWidgetDelete": "Effacer la sélection",
-	"TreeWidgetSelect": "Sélectionner"
+	"TreeWidgetSelect": "Sélectionner",
+	"AutoCompletWidgetNoResult" : "Pas de résultat"
 }
