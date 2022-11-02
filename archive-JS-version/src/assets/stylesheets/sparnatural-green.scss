@@ -1,0 +1,8 @@
+// Import green theme variables file
+@import 'theme-green';
+
+// Import mixins file, where you have defined themify and themed mixins
+@import 'themify';  
+
+// Import button.scss file in this theme file 
+@import 'sparnatural';

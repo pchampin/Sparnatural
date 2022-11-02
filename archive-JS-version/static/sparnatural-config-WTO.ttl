@@ -1,0 +1,1386 @@
+@prefix config-core: <http://data.sparna.fr/ontologies/sparnatural-config-core#> .
+@prefix config-datasources: <http://data.sparna.fr/ontologies/sparnatural-config-datasources#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix euvoc: <http://publications.europa.eu/ontology/euvoc#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosthes: <http://purl.org/iso25964/skos-thes#> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix this: <https://data.wto.org/poc/sparnatural-config/> .
+@prefix wto: <https://data.wto.org/ontology#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://data.wto.org/poc/sparnatural-config> a owl:Ontology;
+  rdfs:seeAlso <http://xls2rdf.sparna.fr/rest/convert?url=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F1IImwyAxpA8466DjuCul31t7W3Zi0ghFB0Xh37E4PWDo%2Fexport%3Fformat%3Dxlsx&noPostProcessings=true>,
+    <https://docs.google.com/spreadsheets/d/1IImwyAxpA8466DjuCul31t7W3Zi0ghFB0Xh37E4PWDo/export?format=xlsx>;
+  owl:imports <http://data.sparna.fr/ontologies/sparnatural-config-core>, <http://data.sparna.fr/ontologies/sparnatural-config-datasources> .
+
+wto:DocumentWork a owl:Class;
+  config-core:defaultLabelProperty this:workTitle;
+  config-core:faIcon "fa-thin fa-file-lines";
+  config-core:order 1;
+  rdfs:label "Document"@en, "Document"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:Symbol a owl:Class;
+  config-core:faIcon "fa-thin fa-slash-forward";
+  config-core:order 2;
+  rdfs:label "Symbol"@en, "Symbole"@fr;
+  rdfs:subClassOf rdfs:Literal .
+
+wto:DocumentCollection a owl:Class;
+  config-core:defaultLabelProperty wto:title;
+  config-core:faIcon "fa-thin fa-folders";
+  config-core:order 3;
+  rdfs:label "Collection"@en, "Collection"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:DocumentSeries a owl:Class;
+  config-core:defaultLabelProperty this:symbol;
+  config-core:faIcon "fa-thin fa-folder";
+  config-core:order 4;
+  rdfs:label "Serie"@en, "Serie"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:Body a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-sitemap";
+  config-core:order 10;
+  rdfs:label "Service OMC"@fr, "WTO Body"@en;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:Committee a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-sitemap";
+  config-core:order 10;
+  config-core:sparqlString "<https://data.wto.org/ontology#Body> ; <https://data.wto.org/ontology#type> <https://data.wto.org/authority/body-types/3>";
+  config-core:tooltip "A Body of type \"Committee\""@en;
+  rdfs:label "Comité"@fr, "Commitee"@en;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:Person a owl:Class;
+  config-core:defaultLabelProperty wto:name;
+  config-core:faIcon "fa-thin fa-user-tie-hair-long";
+  config-core:order 20;
+  rdfs:label "Person"@en, "Personne"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:PersonInvolvement a owl:Class;
+  config-core:faIcon "fa-thin fa-code-commit";
+  config-core:order 30;
+  rdfs:label "Participation"@fr, "Participation Person in Body"@en;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:GeoEntity a owl:Class;
+  config-core:defaultLabelProperty this:skosxlName;
+  config-core:faIcon "fa-thin fa-earth-africa";
+  config-core:order 40;
+  rdfs:label "Country or Country Group"@en, "Pays ou Groupe de Pays"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:CountryOrTerritory a owl:Class;
+  config-core:defaultLabelProperty this:skosxlName;
+  config-core:faIcon "fa-thin fa-earth-africa";
+  config-core:order 40;
+  rdfs:label "Country (or Territory)"@en, "Pays (ou Territoire)"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:CountryOrTerritoryGroup a owl:Class;
+  config-core:defaultLabelProperty this:skosxlName;
+  config-core:faIcon "fa-thin fa-earth";
+  config-core:order 50;
+  rdfs:label "Country (or Territory) Group"@en, "Groupe de Pays (ou Territoires)"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:CountryOrTerritoryMembership a owl:Class;
+  config-core:faIcon "fa-thin fa-code-commit";
+  config-core:order 60;
+  rdfs:label "Country Group Membership"@en, "Relation Pays-Groupe de Pays"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:Organization a owl:Class;
+  config-core:defaultLabelProperty this:skosxlName;
+  config-core:faIcon "fa-thin fa-landmark";
+  config-core:order 65;
+  rdfs:label "Organisation"@fr, "Organization"@en;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:Agreement a owl:Class;
+  config-core:defaultLabelProperty wto:title;
+  config-core:faIcon "fa-thin fa-file-check";
+  config-core:order 70;
+  rdfs:label "Accord"@fr, "Agreement"@en;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:DocumentWorkSubdivision a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-indent";
+  config-core:order 75;
+  rdfs:label "Article"@en, "Article"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:Product a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-crate-apple";
+  config-core:order 78;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept> ; <http://www.w3.org/2004/02/skos/core#inScheme> <https://data.wto.org/authority/product>";
+  rdfs:label "Product"@en, "Produit"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:Keyword a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-cloud-word";
+  config-core:order 80;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept> ; <http://www.w3.org/2004/02/skos/core#inScheme> <https://data.wto.org/authority/thesaurus>";
+  config-core:tooltip "A Keyword from the WTO Thesaurus"@en;
+  rdfs:label "Keyword (Thesaurus)"@en, "Mot-Clé"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:Event a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-calendar-alt";
+  config-core:order 85;
+  rdfs:label "Event"@en, "Evènement"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:Agent a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-user-tie-hair-long";
+  config-core:order 85;
+  config-core:tooltip "A person, body or organization"@fr;
+  rdfs:label "Agent"@en, "Agent"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:WtoItSystem a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-server";
+  config-core:order 86;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept> ; <http://www.w3.org/2004/02/skos/core#inScheme> <https://data.wto.org/authority/wto-it-systems>";
+  rdfs:label "Système informatique OMC"@fr, "WTO IT System"@en;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:NotificationEvent a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-bell-exclamation";
+  config-core:order 85;
+  config-core:tooltip "The notification handling process (versus the notification event, versus the notified measure)"@en;
+  rdfs:label "Evènement de Notification"@fr, "Notification Event"@en;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:PersonRole a owl:Class;
+  config-core:faIcon "fa-thin fa-list-check";
+  config-core:order 90;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept>";
+  rdfs:label "Role"@en, "Role"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:PersonTitle a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-list-check";
+  config-core:order 90;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept>";
+  rdfs:label "Honorific title"@en, "Titre honorific"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:Type a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-list-check";
+  config-core:order 90;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept>";
+  rdfs:label "Type"@en, "Type"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:NotificationType a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-list-check";
+  config-core:order 90;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept> ; <http://www.w3.org/2004/02/skos/core#inScheme> <https://data.wto.org/authority/notification-types>";
+  rdfs:label "Type"@en, "Type"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:AccessLevel a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-list-check";
+  config-core:order 90;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept> ; <http://www.w3.org/2004/02/skos/core#inScheme> <https://data.wto.org/authority/accesses>";
+  rdfs:label "Access Level"@en, "Niveau d'Accès"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:SubmissionChannel a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-list-check";
+  config-core:order 90;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept> ; <http://www.w3.org/2004/02/skos/core#inScheme> <https://data.wto.org/authority/submission-channels>";
+  rdfs:label "Canal de notification"@fr, "Submission channel"@en;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:Periodicity a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-list-check";
+  config-core:order 90;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept> ; <http://www.w3.org/2004/02/skos/core#inScheme> <https://data.wto.org/authority/document-periodicities>";
+  rdfs:label "Periodicity"@en, "Periodicity"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:DocumentSource a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-list-check";
+  config-core:order 90;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept> ; <http://www.w3.org/2004/02/skos/core#inScheme> <https://data.wto.org/authority/document-sources>";
+  rdfs:label "Source"@en, "Source"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:DocumentStatus a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-list-check";
+  config-core:order 90;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept> ; <http://www.w3.org/2004/02/skos/core#inScheme> <https://data.wto.org/authority/document-statuses>";
+  rdfs:label "Status"@en, "Statut"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:DocumentType a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-list-check";
+  config-core:order 90;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept> ; <http://www.w3.org/2004/02/skos/core#inScheme> <https://data.wto.org/authority/document-types>";
+  rdfs:label "Type"@en, "Type"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:EventType a owl:Class;
+  config-core:defaultLabelProperty skos:prefLabel;
+  config-core:faIcon "fa-thin fa-list-check";
+  config-core:order 90;
+  config-core:sparqlString "<http://www.w3.org/2004/02/skos/core#Concept> ; <http://www.w3.org/2004/02/skos/core#inScheme> <https://data.wto.org/authority/event-types>";
+  rdfs:label "Type"@en, "Type"@fr;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+this:Date a owl:Class;
+  config-core:faIcon "fa-thin fa-calendar-range";
+  config-core:order 96;
+  rdfs:label "Date"@en, "Date"@fr;
+  rdfs:subClassOf rdfs:Literal .
+
+this:Boolean a owl:Class;
+  config-core:faIcon "fa-thin fa-square-check";
+  config-core:order 97;
+  rdfs:label "True/False"@en, "Vrai/Faux"@fr;
+  rdfs:subClassOf rdfs:Literal .
+
+this:Text a owl:Class;
+  config-core:faIcon "fa-thin fa-font-case";
+  config-core:order 98;
+  rdfs:label "Text"@en, "Texte"@fr;
+  rdfs:subClassOf rdfs:Literal .
+
+this:Label a owl:Class;
+  config-core:faIcon "fa-thin fa-input-text";
+  config-core:order 99;
+  rdfs:label "Name"@en, "Nom"@fr;
+  rdfs:subClassOf rdfs:Literal .
+
+this:URL a owl:Class;
+  config-core:faIcon "fa-thin fa-up-right-from-square";
+  config-core:order 99;
+  rdfs:label "URL"@en, "URL"@fr;
+  rdfs:subClassOf rdfs:Literal .
+
+wto:Division a owl:Class;
+  config-core:faIcon "fa-thin fa-sitemap";
+  config-core:order 900;
+  rdfs:label "Division WTO (no data)"@fr, "WTO Division (no data)"@en;
+  rdfs:subClassOf config-core:SparnaturalClass .
+
+wto:accessLevel a owl:ObjectProperty;
+  config-datasources:datasource this:list_range-based_skospreflabel_alpha;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "access level"@en, "niveau d'accès"@fr;
+  rdfs:range this:AccessLevel;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+wto:documentCollection a owl:ObjectProperty;
+  config-datasources:datasource this:list_range-based_wtotitle_alpha;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "collection"@en, "collection"@fr;
+  rdfs:range wto:DocumentCollection;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+wto:filedUnder a owl:ObjectProperty;
+  config-datasources:datasource this:list_range-based_wtosymbol_alpha;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "classé dans"@fr, "filed under"@en;
+  rdfs:range wto:DocumentSeries;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:filedUnder_tree a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#filedUnder>";
+  config-datasources:treeChildrenDatasource this:tree_children_nomenclature;
+  config-datasources:treeRootsDatasource this:tree_root_nomenclature;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "classé dans (arbre)"@fr, "filed under (tree view)"@en;
+  rdfs:range wto:DocumentSeries;
+  rdfs:subPropertyOf config-core:TreeProperty .
+
+wto:periodicity a owl:ObjectProperty;
+  config-datasources:datasource this:list_range-based_skospreflabel_alpha;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "periodicity"@en, "periodicité"@fr;
+  rdfs:range this:Periodicity;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+wto:source a owl:ObjectProperty;
+  config-datasources:datasource this:list_range-based_skospreflabel_alpha;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "source"@en, "source"@fr;
+  rdfs:range this:DocumentSource;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+wto:status a owl:ObjectProperty;
+  config-datasources:datasource this:list_range-based_skospreflabel_alpha;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "status"@en, "status"@fr;
+  rdfs:range this:DocumentStatus;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:type_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#type>";
+  config-datasources:datasource this:list_range-based_skospreflabel_alpha;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "type"@en, "type"@fr;
+  rdfs:range this:DocumentType;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:bodyResponsible_DocumentWork_tree a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#bodyResponsible>";
+  config-datasources:treeChildrenDatasource this:tree_children_bodies;
+  config-datasources:treeRootsDatasource this:tree_root_wto-gatt;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "body responsible"@en, "service responsable"@fr;
+  rdfs:range wto:Body;
+  rdfs:subPropertyOf config-core:TreeProperty .
+
+this:dateissued_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#dateIssued>";
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "date de publication"@fr, "date issued"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:derestrictiondate_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#derestrictionDate>";
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "date d'ouverture"@fr, "derestriction date"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:isFormat_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#isFormal>";
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "formal"@en, "formel"@fr;
+  rdfs:range this:Boolean;
+  rdfs:subPropertyOf config-core:BooleanProperty .
+
+this:symbol_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#symbol>";
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "symbol (regex)"@en, "symbole (expr. régulière)"@fr;
+  rdfs:range this:Symbol;
+  rdfs:subPropertyOf config-core:SearchProperty .
+
+this:bodyMentioned_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#bodyMentionned>";
+  config-datasources:treeChildrenDatasource this:tree_children_bodies;
+  config-datasources:treeRootsDatasource this:tree_root_wto-gatt;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "body mentioned"@en, "service mentionné"@fr;
+  rdfs:range wto:Body;
+  rdfs:subPropertyOf config-core:TreeProperty .
+
+this:cites_DocumentWork_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#cites>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "cite"@fr, "cites"@en;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:cites_DocumentWork_Subdivision a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#cites>";
+  config-datasources:datasource this:search_range-based_prefOrAltLabel_strstarts;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "cite"@fr, "cites"@en;
+  rdfs:range wto:DocumentWorkSubdivision;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:legalBasis_DocumentWork_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#legalBasis>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "base légale"@fr, "legal basis"@en;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:legalBasis_DocumentWork_Subdivision a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#legalBasis>";
+  config-datasources:datasource this:search_range-based_prefOrAltLabel_strstarts;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "base légale"@fr, "legal basis"@en;
+  rdfs:range wto:DocumentWorkSubdivision;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:keyword_DocumentWork_tree a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#keyword>/(<http://www.w3.org/2004/02/skos/core#broader>|^<http://www.w3.org/2004/02/skos/core#narrower>)*";
+  config-datasources:treeChildrenDatasource this:tree_children_thesaurus;
+  config-datasources:treeRootsDatasource this:tree_root_thesaurus;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "keyword (arbre)"@fr, "keyword (tree)"@en;
+  rdfs:range this:Keyword;
+  rdfs:subPropertyOf config-core:TreeProperty .
+
+this:keyword_DocumentWork_search a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#keyword>/(<http://www.w3.org/2004/02/skos/core#broader>|^<http://www.w3.org/2004/02/skos/core#narrower>)*";
+  config-datasources:datasource this:search_range-based_prefOrAltLabel_strstarts;
+  config-datasources:treeChildrenDatasource this:tree_children_thesaurus;
+  config-datasources:treeRootsDatasource this:tree_root_thesaurus;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "keyword (recherche)"@fr, "keyword (search)"@en;
+  rdfs:range this:Keyword;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:territoryMentioned_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#territoryMentionned>";
+  config-datasources:datasource this:list_range-based_skosxlprefLabel_alpha;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "territoire mentionné"@fr, "territory mentioned"@en;
+  rdfs:range wto:GeoEntity;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:organizationMentioned_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#organizationMentionned>";
+  config-datasources:datasource this:list_range-based_skosxlprefLabel_alpha;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "organization mentioned"@en, "organization mentionnée"@fr;
+  rdfs:range wto:Organization;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:wtoItSystemMentioned_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#wtoItSystemMentioned>";
+  config-datasources:datasource this:list_range-based_skospreflabel_alpha;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "Système IT WTO mentionné"@fr, "WTO It system mentioned"@en;
+  rdfs:range wto:WtoItSystem;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:product_DocumentWork_tree a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#product>/(<http://www.w3.org/2004/02/skos/core#broader>|^<http://www.w3.org/2004/02/skos/core#narrower>)*";
+  config-datasources:treeChildrenDatasource config-datasources:tree_children_skosnarrower;
+  config-datasources:treeRootsDatasource this:tree_root_products;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "product mentioned (tree)"@en, "produit mentionné (arbre)"@fr;
+  rdfs:range wto:Product;
+  rdfs:subPropertyOf config-core:TreeProperty .
+
+this:product_DocumentWork_search a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#product>/(<http://www.w3.org/2004/02/skos/core#broader>|^<http://www.w3.org/2004/02/skos/core#narrower>)*";
+  config-datasources:datasource this:search_range-based_prefOrAltLabel_strstarts;
+  config-datasources:treeChildrenDatasource config-datasources:tree_children_skosnarrower;
+  config-datasources:treeRootsDatasource this:tree_root_products;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "product mentioned (search)"@en, "produit mentionné (recherche)"@fr;
+  rdfs:range wto:Product;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:notifyingDocument_inverse a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#notifyingDocument>";
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "notified through"@en, "notifié par"@fr;
+  rdfs:range wto:NotificationEvent;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:issuingParty_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#issuingParty>";
+  config-datasources:datasource this:list_range-based_skosxlprefLabel_alpha;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "issuing party"@en, "émetteur"@fr;
+  rdfs:range wto:GeoEntity;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:targetedParty_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#targetedParty>";
+  config-datasources:datasource this:list_range-based_skosxlprefLabel_alpha;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "cible"@fr, "targeted party"@en;
+  rdfs:range wto:GeoEntity;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:temporalCoverage_DocumentWork a owl:ObjectProperty;
+  config-core:beginDateProperty this:periodOfTime_start;
+  config-core:endDateProperty this:periodOfTime_end;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "couverture temporelle"@fr, "temporal coverage"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:documentOutput_inverse_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#documentOutput>";
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "est produit par"@fr, "is output of"@en;
+  rdfs:range wto:Event;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:documentInput_inverse_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#documentInput>";
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "est utilisé par"@fr, "is input of"@en;
+  rdfs:range wto:Event;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:documentTrigger_inverse_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#documentTrigger>";
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "déclenche"@fr, "triggers"@en;
+  rdfs:range wto:Event;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:workingDocument_inverse_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#workingDocument>";
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "est document de travail de"@fr, "is working document of"@en;
+  rdfs:range wto:Event;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:rulingOutput_inverse_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#rulingOutput>";
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "est production normative de"@fr, "is ruling output of"@en;
+  rdfs:range wto:Event;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:references_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#references>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "references"@en, "référence"@fr;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:references_inverse_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#references>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "referenced by"@en, "référencé par"@fr;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:addendumOf_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#addendumOf>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "addenda de"@fr, "addendum of"@en;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:addendumOf_inverse_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#addendumOf>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "a pour addenda"@fr, "has addendum"@en;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:corrigendumOf_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#corrigendumOf>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "corrigenda de"@fr, "corrigendum of"@en;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:corrigendumOf_inverse_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#corrigendumOf>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "a pour addenda"@fr, "has corrigendum"@en;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:republicationOf_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#republicationOf>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "republication de"@fr, "republication of"@en;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:republicationOf_inverse_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#republicationOf>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "republished in"@en, "republié dans"@fr;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:revisionOf_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#revisionOf>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "revision of"@en, "révision de"@fr;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:revisionOf_inverse_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#revisionOf>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "a pour révision"@fr, "has revision"@en;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:supplementTo_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#supplementTo>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "supplement to"@en, "supplément de"@fr;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:supplementTo_inverse_DocumentWork a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#supplementTo>";
+  config-datasources:datasource this:search_wtoisrealizedbyexpression_wtotitle;
+  rdfs:domain wto:DocumentWork;
+  rdfs:label "a pour supplément"@fr, "has supplement"@en;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:unit_inverse a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#unit>";
+  rdfs:domain wto:Body;
+  rdfs:label "connected to"@en, "connecté à"@fr;
+  rdfs:range wto:PersonInvolvement;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+wto:unitOf a owl:ObjectProperty;
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha_with_count;
+  rdfs:domain wto:Body;
+  rdfs:label "parent body"@en, "service parent"@fr;
+  rdfs:range wto:Body;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+wto:hasUnit a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#unitOf>";
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha_with_count;
+  rdfs:domain wto:Body;
+  rdfs:label "child body"@en, "service enfant"@fr;
+  rdfs:range wto:Body;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:isReplacedBy_Body a owl:ObjectProperty;
+  config-core:sparqlString "<http://purl.org/dc/terms/isReplacedBy>";
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha_with_count;
+  rdfs:domain wto:Body;
+  rdfs:label "remplacé par"@fr, "replaced by"@en;
+  rdfs:range wto:Body;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:replaces_Body a owl:ObjectProperty;
+  config-core:sparqlString "^<http://purl.org/dc/terms/isReplacedBy>";
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha_with_count;
+  rdfs:domain wto:Body;
+  rdfs:label "remplace"@fr, "replaces"@en;
+  rdfs:range wto:Body;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:startDate_Body a owl:ObjectProperty;
+  config-core:enableNegation true;
+  config-core:enableOptional true;
+  config-core:sparqlString "<https://data.wto.org/ontology#startDate>";
+  rdfs:domain wto:Body;
+  rdfs:label "date de début"@fr, "start date"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:endDate_Body a owl:ObjectProperty;
+  config-core:enableNegation true;
+  config-core:enableOptional true;
+  config-core:sparqlString "<https://data.wto.org/ontology#endDate>";
+  rdfs:domain wto:Body;
+  rdfs:label "date de fin"@fr, "end date"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:type_Body a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#type>";
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha_with_count;
+  rdfs:domain wto:Body;
+  rdfs:label "type"@en, "type"@fr;
+  rdfs:range this:Type;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:deprecated_Body a owl:ObjectProperty;
+  config-core:enableNegation true;
+  config-core:sparqlString "<http://www.w3.org/2002/07/owl#deprecated>";
+  rdfs:domain wto:Body;
+  rdfs:label "est déprécié"@fr, "is deprecated"@en;
+  rdfs:range this:Boolean;
+  rdfs:subPropertyOf config-core:BooleanProperty .
+
+this:internal_Body a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#internal>";
+  rdfs:domain wto:Body;
+  rdfs:label "is internal"@en, "usage interne"@fr;
+  rdfs:range this:Boolean;
+  rdfs:subPropertyOf config-core:BooleanProperty .
+
+this:accedingCountry_Body a owl:ObjectProperty;
+  config-core:isMultilingual true;
+  config-core:sparqlString "<https://data.wto.org/ontology#accedingCountry>";
+  config-datasources:datasource this:list_skosxlprefLabel_alpha_with_count;
+  rdfs:domain wto:Body;
+  rdfs:label "acceding country"@en, "pays candidat à l'adhésion"@fr;
+  rdfs:range wto:CountryOrTerritory;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+wto:hasAdministrativeResponsible a owl:ObjectProperty;
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha_with_count;
+  rdfs:domain wto:Body;
+  rdfs:label "division responsable"@fr, "responsible division"@en;
+  rdfs:range wto:Division;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:tradeTopic_Body a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#tradeTopic>";
+  config-datasources:datasource this:list_skosxlprefLabel_alpha_with_count;
+  rdfs:domain wto:Body;
+  rdfs:label "trade topic (no data)"@en, "trade topic (no data)"@fr;
+  rdfs:range wto:Keyword;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:person_inverse a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#person>";
+  rdfs:domain wto:Person;
+  rdfs:label "connected to"@en, "connectée à"@fr;
+  rdfs:range wto:PersonInvolvement;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+wto:personTitle a owl:ObjectProperty;
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha_with_count;
+  rdfs:domain wto:Person;
+  rdfs:label "title"@en, "titre"@fr;
+  rdfs:range wto:PersonTitle;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+wto:delegateFrom a owl:ObjectProperty;
+  config-datasources:datasource this:list_skosxlprefLabel_alpha_with_count;
+  rdfs:domain wto:Person;
+  rdfs:label "delegate from"@en, "délégué de"@fr;
+  rdfs:range wto:CountryOrTerritory;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:startDate_PersonInvolvement a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#startDate>";
+  rdfs:domain wto:PersonInvolvement;
+  rdfs:label "date de début"@fr, "start date"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:endDate_PersonInvolvement a owl:ObjectProperty;
+  config-core:enableNegation true;
+  config-core:sparqlString "<https://data.wto.org/ontology#endDate>";
+  rdfs:domain wto:PersonInvolvement;
+  rdfs:label "date de fin"@fr, "end date"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:appointmentDate_PersonInvolvement a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#appointmentDate>";
+  rdfs:domain wto:PersonInvolvement;
+  rdfs:label "appointment date"@en, "date de désignation"@fr;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+wto:role a owl:ObjectProperty;
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha_with_count;
+  rdfs:domain wto:PersonInvolvement;
+  rdfs:label "role"@en, "rôle"@fr;
+  rdfs:range wto:PersonRole;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:unit_PersonInvolvement a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#unit>";
+  config-datasources:treeChildrenDatasource this:tree_children_bodies;
+  config-datasources:treeRootsDatasource this:tree_root_wto-gatt;
+  rdfs:domain wto:PersonInvolvement;
+  rdfs:label "connected body"@en, "service lié"@fr;
+  rdfs:range wto:Body;
+  rdfs:subPropertyOf config-core:TreeProperty .
+
+wto:person a owl:ObjectProperty;
+  config-datasources:datasource this:list_wtoname_alpha;
+  rdfs:domain wto:PersonInvolvement;
+  rdfs:label "connected person"@en, "personne liée"@fr;
+  rdfs:range wto:Person;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+wto:administrativelyResponsibleFor a owl:ObjectProperty;
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha_with_count;
+  rdfs:domain wto:Division;
+  rdfs:label "responsable"@fr, "responsible for"@en;
+  rdfs:range wto:Body;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:startDate_CountryOrTerritory a owl:ObjectProperty;
+  config-core:enableNegation true;
+  config-core:enableOptional true;
+  config-core:sparqlString "<https://data.wto.org/ontology#startDate>";
+  rdfs:domain wto:GeoEntity;
+  rdfs:label "date de début"@fr, "start date"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:endDate_CountryOrTerritory a owl:ObjectProperty;
+  config-core:enableNegation true;
+  config-core:enableOptional true;
+  config-core:sparqlString "<https://data.wto.org/ontology#endDate>";
+  rdfs:domain wto:GeoEntity;
+  rdfs:label "date de fin"@fr, "end date"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:deprecated_CountryOrTerritory a owl:ObjectProperty;
+  config-core:enableNegation true;
+  config-core:sparqlString "<http://www.w3.org/2002/07/owl#deprecated>";
+  rdfs:domain wto:GeoEntity;
+  rdfs:label "est déprécié"@fr, "is deprecated"@en;
+  rdfs:range this:Boolean;
+  rdfs:subPropertyOf config-core:BooleanProperty .
+
+wto:ISO-3N a owl:ObjectProperty;
+  rdfs:domain wto:GeoEntity;
+  rdfs:label "ISO 3N"@en, "ISO 3N"@fr;
+  rdfs:range this:Text;
+  rdfs:subPropertyOf config-core:StringEqualsProperty .
+
+wto:ISO-3A a owl:ObjectProperty;
+  rdfs:domain wto:GeoEntity;
+  rdfs:label "ISO 3A"@en, "ISO 3A"@fr;
+  rdfs:range this:Text;
+  rdfs:subPropertyOf config-core:StringEqualsProperty .
+
+wto:ISO-2A a owl:ObjectProperty;
+  config-core:enableOptional true;
+  rdfs:domain wto:GeoEntity;
+  rdfs:label "ISO 2A"@en, "ISO 2A"@fr;
+  rdfs:range this:Text;
+  rdfs:subPropertyOf config-core:StringEqualsProperty .
+
+this:isReplacedBy_CountryOrTerritory a owl:ObjectProperty;
+  config-core:sparqlString "<http://purl.org/dc/terms/isReplacedBy>";
+  config-datasources:datasource this:list_skosxlprefLabel_alpha_with_count;
+  rdfs:domain wto:GeoEntity;
+  rdfs:label "remplacé par"@fr, "replaced by"@en;
+  rdfs:range wto:CountryOrTerritory;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:replaces_CountryOrTerritory a owl:ObjectProperty;
+  config-core:sparqlString "^<http://purl.org/dc/terms/isReplacedBy>";
+  config-datasources:datasource this:list_skosxlprefLabel_alpha_with_count;
+  rdfs:domain wto:GeoEntity;
+  rdfs:label "remplace"@fr, "replaces"@en;
+  rdfs:range wto:CountryOrTerritory;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:member_inverse a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#member>";
+  rdfs:domain wto:GeoEntity;
+  rdfs:label "member in"@en, "membre dans"@fr;
+  rdfs:range wto:CountryOrTerritoryMembership;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:grouping_inverse a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#grouping>";
+  rdfs:domain wto:GeoEntity;
+  rdfs:label "groupe dans"@fr, "grouping in"@en;
+  rdfs:range wto:CountryOrTerritoryMembership;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:type_CountryOrTerritoryGroup a owl:ObjectProperty;
+  config-core:enableOptional true;
+  config-core:sparqlString "<https://data.wto.org/ontology#type>";
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha_with_count;
+  rdfs:domain wto:GeoEntity;
+  rdfs:label "type"@en, "type"@fr;
+  rdfs:range this:Type;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+wto:member a owl:ObjectProperty;
+  config-datasources:datasource this:list_skosxlprefLabel_alpha_with_count;
+  rdfs:domain wto:CountryOrTerritoryMembership;
+  rdfs:label "member"@en, "membre"@fr;
+  rdfs:range wto:CountryOrTerritory;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+wto:grouping a owl:ObjectProperty;
+  config-datasources:datasource this:list_skosxlprefLabel_alpha_with_count;
+  rdfs:domain wto:CountryOrTerritoryMembership;
+  rdfs:label "groupe"@fr, "grouping"@en;
+  rdfs:range wto:CountryOrTerritoryGroup;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:startDate_CountryOrTerritoryMembership a owl:ObjectProperty;
+  config-core:enableNegation true;
+  config-core:enableOptional true;
+  config-core:sparqlString "<https://data.wto.org/ontology#startDate>";
+  rdfs:domain wto:CountryOrTerritoryMembership;
+  rdfs:label "date de début"@fr, "start date"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:endDate_CountryOrTerritoryMembership a owl:ObjectProperty;
+  config-core:enableNegation true;
+  config-core:enableOptional true;
+  config-core:sparqlString "<https://data.wto.org/ontology#endDate>";
+  rdfs:domain wto:CountryOrTerritoryMembership;
+  rdfs:label "date de fin"@fr, "end date"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:type_Agreement a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#type>";
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha_with_count;
+  rdfs:domain wto:Agreement;
+  rdfs:label "type"@en, "type"@fr;
+  rdfs:range this:Type;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:bodyResponsible_Agreement a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#bodyResponsible>";
+  config-datasources:treeChildrenDatasource this:tree_children_bodies;
+  config-datasources:treeRootsDatasource this:tree_root_wto-gatt;
+  rdfs:domain wto:Agreement;
+  rdfs:label "body responsible"@en, "service responsable"@fr;
+  rdfs:range wto:Body;
+  rdfs:subPropertyOf config-core:TreeProperty .
+
+this:signedBy_Agreement a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#signedBy>";
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha;
+  rdfs:domain wto:Agreement;
+  rdfs:label "signataire (no data)"@fr, "signed by (no data)"@en;
+  rdfs:range wto:CountryOrTerritory;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+wto:websiteUrl a owl:ObjectProperty;
+  rdfs:domain wto:Agreement;
+  rdfs:label "page sur le site web"@fr, "website URL"@en;
+  rdfs:range this:URL;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:inForce_Agreement a owl:ObjectProperty;
+  config-core:enableOptional true;
+  config-core:sparqlString "<https://data.wto.org/ontology#inForce>";
+  rdfs:domain wto:Agreement;
+  rdfs:label "applicable"@fr, "in force"@en;
+  rdfs:range this:Boolean;
+  rdfs:subPropertyOf config-core:BooleanProperty .
+
+this:dateNoLongerInForce_Agreement a owl:ObjectProperty;
+  config-core:enableOptional true;
+  config-core:sparqlString "<https://data.wto.org/ontology#dateNoLongerInForce>";
+  rdfs:domain wto:Agreement;
+  rdfs:label "date de fin d'applicabilité"@fr, "date no longer in force"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:fragmentOf_DocumentWorkSubdivision a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#fragmentOf>";
+  config-datasources:datasource this:search_range-based_prefOrAltLabel_strstarts;
+  rdfs:domain wto:DocumentWorkSubdivision;
+  rdfs:label "fragment of"@en, "subdivision de"@fr;
+  rdfs:range wto:DocumentWorkSubdivision;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+this:withinDocument_DocumentWorkSubdivision a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#withinDocument>";
+  config-datasources:datasource this:list_wtotitle_alpha;
+  rdfs:domain wto:DocumentWorkSubdivision;
+  rdfs:label "dans le document"@fr, "within"@en;
+  rdfs:range wto:DocumentWork;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:type_Organization a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#type>";
+  config-datasources:datasource config-datasources:list_skospreflabel_alpha_with_count;
+  rdfs:domain wto:Organization;
+  rdfs:label "type"@en, "type"@fr;
+  rdfs:range this:Type;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:matchingCountryOrTerritoryGroup_Organization a owl:ObjectProperty;
+  config-core:enableOptional true;
+  config-core:sparqlString "<https://data.wto.org/ontology#matchingCountryOrTerritoryGroup>";
+  config-datasources:datasource this:list_skosxlprefLabel_alpha_with_count;
+  rdfs:domain wto:Organization;
+  rdfs:label "matching country or territory"@en, "pays ou territoire correspondant"@fr;
+  rdfs:range wto:GeoEntity;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+wto:dateCommunicated a owl:ObjectProperty;
+  rdfs:domain wto:NotificationEvent;
+  rdfs:label "date communicated"@en, "date de communication"@fr;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+wto:dateReceived a owl:ObjectProperty;
+  rdfs:domain wto:NotificationEvent;
+  rdfs:label "date de réception"@fr, "date received"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:type_NotificationEvent a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#type>";
+  config-datasources:datasource this:list_range-based_skospreflabel_alpha;
+  rdfs:domain wto:NotificationEvent;
+  rdfs:label "type"@en, "type"@fr;
+  rdfs:range this:NotificationType;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:committee_NotificationEvent a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#committe>";
+  config-datasources:datasource this:list_range-based_skospreflabel_alpha;
+  rdfs:domain wto:NotificationEvent;
+  rdfs:label "comité"@fr, "within committee"@en;
+  rdfs:range this:Committee;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:submissionChannel_NotificationEvent a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#submissionChannel>";
+  config-datasources:datasource this:list_range-based_skospreflabel_alpha;
+  rdfs:domain wto:NotificationEvent;
+  rdfs:label "canal de soumission"@fr, "submission channel"@en;
+  rdfs:range this:SubmissionChannel;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:issuingParty_NotificationEvent a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#issuingParty>";
+  config-datasources:datasource this:list_range-based_skosxlprefLabel_alpha;
+  rdfs:domain wto:NotificationEvent;
+  rdfs:label "issuing party"@en, "émetteur"@fr;
+  rdfs:range wto:GeoEntity;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:targetedParty_NotificationEvent a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#targetedParty>";
+  config-datasources:datasource this:list_range-based_skosxlprefLabel_alpha;
+  rdfs:domain wto:NotificationEvent;
+  rdfs:label "cible"@fr, "targeted party"@en;
+  rdfs:range wto:GeoEntity;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:onBehalfOf_NotificationEvent a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#onBehalfOf>";
+  config-datasources:datasource this:list_range-based_skosxlprefLabel_alpha;
+  rdfs:domain wto:NotificationEvent;
+  rdfs:label "au nom de"@fr, "on behalf of"@en;
+  rdfs:range wto:GeoEntity;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:date_Event a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#date>";
+  rdfs:domain wto:Event;
+  rdfs:label "date"@en, "date"@fr;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:start_Event a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#start>";
+  rdfs:domain wto:Event;
+  rdfs:label "date début"@fr, "start date"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:end_Event a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#end>";
+  rdfs:domain wto:Event;
+  rdfs:label "date fin"@fr, "end date"@en;
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:TimeProperty-Date .
+
+this:partOf_Event a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#partOf>";
+  rdfs:domain wto:Event;
+  rdfs:label "fait partie de"@fr, "part of"@en;
+  rdfs:range wto:Event;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:type_Event a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#type>";
+  config-datasources:datasource this:list_range-based_skospreflabel_alpha;
+  rdfs:domain wto:Event;
+  rdfs:label "type"@en, "type"@fr;
+  rdfs:range this:EventType;
+  rdfs:subPropertyOf config-core:ListProperty .
+
+this:previous_Event a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#previous>";
+  rdfs:domain wto:Event;
+  rdfs:label "has previous event"@en, "suit"@fr;
+  rdfs:range wto:Event;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:previous_inverse_Event a owl:ObjectProperty;
+  config-core:sparqlString "^<https://data.wto.org/ontology#previous>";
+  rdfs:domain wto:Event;
+  rdfs:label "has following event"@en, "suivi de"@fr;
+  rdfs:range wto:Event;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:participant_Event a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#participant>";
+  config-datasources:datasource this:search_range-based_prefOrAltLabel_strstarts;
+  rdfs:domain wto:Event;
+  rdfs:label "participant"@en, "participant"@fr;
+  rdfs:range wto:Agent;
+  rdfs:subPropertyOf config-core:AutocompleteProperty .
+
+skos:prefLabel a owl:ObjectProperty;
+  config-core:isMultilingual true;
+  rdfs:range this:Label;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+wto:name a owl:ObjectProperty;
+  rdfs:range this:Label;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:skosxlName a owl:ObjectProperty;
+  config-core:isMultilingual true;
+  config-core:sparqlString "<http://www.w3.org/2008/05/skos-xl#prefLabel>/<http://www.w3.org/2008/05/skos-xl#literalForm>";
+  rdfs:range this:Label;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+wto:title a owl:ObjectProperty;
+  rdfs:range this:Label;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:workTitle a owl:ObjectProperty;
+  config-core:isMultilingual true;
+  config-core:sparqlString "<https://data.wto.org/ontology#isRealizedByExpression>/<https://data.wto.org/ontology#title>";
+  rdfs:range this:Label;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:symbol a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#symbol>";
+  rdfs:range this:Label;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:periodOfTime_start a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#temporalCoverage>/<https://data.wto.org/ontology#start>";
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:periodOfTime_end a owl:ObjectProperty;
+  config-core:sparqlString "<https://data.wto.org/ontology#temporalCoverage>/<https://data.wto.org/ontology#end>";
+  rdfs:range this:Date;
+  rdfs:subPropertyOf config-core:NonSelectableProperty .
+
+this:list_wtoname_alpha a config-datasources:SparqlDatasource;
+  config-datasources:labelProperty wto:name;
+  config-datasources:queryTemplate config-datasources:query_list_label_alpha_with_count .
+
+this:list_wtotitle_alpha a config-datasources:SparqlDatasource;
+  config-datasources:labelProperty wto:title;
+  config-datasources:queryTemplate config-datasources:query_list_label_alpha_with_count .
+
+this:list_skosxlprefLabel_alpha_with_count a config-datasources:SparqlDatasource;
+  config-datasources:labelPath "<http://www.w3.org/2008/05/skos-xl#prefLabel>/<http://www.w3.org/2008/05/skos-xl#literalForm>";
+  config-datasources:queryTemplate config-datasources:query_list_label_alpha_with_count .
+
+this:list_range-based_skosxlprefLabel_alpha a config-datasources:SparqlDatasource;
+  config-datasources:queryString """PREFIX wto: <https://data.wto.org/ontology#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?uri ?label WHERE {
+ ?uri a $range .
+ ?uri <http://www.w3.org/2008/05/skos-xl#prefLabel>/<http://www.w3.org/2008/05/skos-xl#literalForm> ?label .
+ FILTER(lang(?label) = $lang)
+}""" .
+
+this:tree_root_wto-gatt a config-datasources:SparqlDatasource;
+  config-datasources:queryString """PREFIX wto: <https://data.wto.org/ontology#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?uri ?label WHERE {
+ ?uri skos:inScheme <https://data.wto.org/authority/wto-gatt> .
+ ?uri skos:prefLabel ?label .
+ FILTER(lang(?label) = $lang)
+}""" .
+
+this:tree_children_bodies a config-datasources:SparqlDatasource;
+  config-datasources:queryString """PREFIX wto: <https://data.wto.org/ontology#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?uri ?label ?hasChildren (COUNT(?x) AS ?count) WHERE {
+ {
+ {
+ $node wto:hasUnit|^wto:unitOf ?uri .
+ }
+ UNION
+ {
+ FILTER($node IN (<https://data.wto.org/authority/wto-gatt/WTO>, <https://data.wto.org/authority/wto-gatt/GATT>))
+ $node ^wto:within ?uri .
+ FILTER NOT EXISTS { ?uri ^wto:hasUnit|wto:unitOf ?parent } 
+ }
+ }
+ ?uri skos:prefLabel ?label .
+ FILTER(lang(?label) = $lang)
+ OPTIONAL { ?uri wto:hasUnit|^wto:unitOf ?children }
+ BIND(IF(bound(?children),true,false) AS ?hasChildren)
+
+ OPTIONAL {
+ ?x a $domain .
+ ?x $property ?uri .
+ }
+}
+GROUP BY ?uri ?label ?hasChildren
+ORDER BY ?label""" .
+
+this:list_range-based_skospreflabel_alpha a config-datasources:SparqlDatasource;
+  config-datasources:queryString """PREFIX wto: <https://data.wto.org/ontology#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?uri ?label WHERE {
+ ?uri a $range .
+ ?uri skos:prefLabel ?label .
+ FILTER(lang(?label) = $lang)
+}""" .
+
+this:list_range-based_wtotitle_alpha a config-datasources:SparqlDatasource;
+  config-datasources:queryString """PREFIX wto: <https://data.wto.org/ontology#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?uri ?label WHERE {
+ ?uri a $range .
+ ?uri wto:title ?label .
+ FILTER(lang(?label) = $lang)
+}""" .
+
+this:list_range-based_wtosymbol_alpha a config-datasources:SparqlDatasource;
+  config-datasources:queryString """PREFIX wto: <https://data.wto.org/ontology#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?uri ?label WHERE {
+ ?uri a $range .
+ ?uri wto:symbol ?label .
+}""" .
+
+this:tree_root_nomenclature a config-datasources:SparqlDatasource;
+  config-datasources:queryString """PREFIX wto: <https://data.wto.org/ontology#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?uri ?label WHERE {
+ ?uri a wto:DocumentCollection .
+ ?uri wto:symbol ?symbol .
+ ?uri wto:title ?title .
+ FILTER(lang(?title) = $lang)
+ BIND(CONCAT(?symbol, \" - \", ?title) AS ?label)
+}
+ORDER BY ?label""" .
+
+this:tree_children_nomenclature a config-datasources:SparqlDatasource;
+  config-datasources:queryString """PREFIX wto: <https://data.wto.org/ontology#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?uri ?label ?hasChildren WHERE {
+ $node ^wto:groupedIn ?uri .
+ ?uri wto:symbol ?label .
+ OPTIONAL { ?uri ^wto:groupedIn ?children }
+ BIND(IF(bound(?children),true,false) AS ?hasChildren)
+}
+ORDER BY ?label""" .
+
+this:search_wtoisrealizedbyexpression_wtotitle a config-datasources:SparqlDatasource;
+  config-datasources:labelPath "<https://data.wto.org/ontology#isRealizedByExpression>/<https://data.wto.org/ontology#title>";
+  config-datasources:queryTemplate config-datasources:query_search_label_contains .
+
+this:search_range-based_prefOrAltLabel_strstarts a config-datasources:SparqlDatasource;
+  config-datasources:queryString """PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?uri ?label
+WHERE {
+ ?uri a $range .
+ FILTER(isIRI(?uri))
+{
+ ?uri skos:prefLabel ?label .
+ FILTER(STRSTARTS(LCASE(STR(?label)), LCASE(\"$key\"))) 
+}
+UNION
+{
+ ?uri skos:altLabel ?altLabel .
+ ?uri skos:prefLabel ?prefLabel .
+ FILTER(STRSTARTS(LCASE(STR(?altLabel)), LCASE(\"$key\"))) 
+ FILTER(lang(?prefLabel) = lang(?altLabel))
+ BIND(CONCAT(STR(?altLabel), \" (\",STR(?prefLabel),\")\") AS ?label)
+}
+} 
+ORDER BY UCASE(?label)
+LIMIT 50""" .
+
+this:search_range-based_skosxlpreflabel_strstarts a config-datasources:SparqlDatasource;
+  config-datasources:queryString """SELECT DISTINCT ?uri ?label
+WHERE {
+ ?uri a $range .
+ ?uri <http://www.w3.org/2008/05/skos-xl#prefLabel>/<http://www.w3.org/2008/05/skos-xl#literalForm> ?label .
+ FILTER(isIRI(?uri))
+ FILTER(STRSTARTS(LCASE(STR(?label)), LCASE(\"$key\"))) 
+} 
+ORDER BY UCASE(?label)
+LIMIT 50""" .
+
+this:tree_root_thesaurus a config-datasources:SparqlDatasource;
+  config-datasources:queryString """PREFIX wto: <https://data.wto.org/ontology#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?uri ?label WHERE {
+ ?uri a skos:ConceptScheme .
+ ?uri <http://purl.org/dc/terms/isPartOf> <https://data.wto.org/authority/thesaurus> .
+ ?uri skos:prefLabel ?label .
+ FILTER(lang(?label) = $lang)
+}
+ORDER BY ?label""" .
+
+this:tree_children_thesaurus a config-datasources:SparqlDatasource;
+  config-datasources:queryString """PREFIX wto: <https://data.wto.org/ontology#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?uri ?label ?hasChildren (COUNT(?x) AS ?count) WHERE {
+ {
+ {
+ $node a skos:ConceptScheme .
+ $node skos:hasTopConcept|^skos:topConceptOf ?uri .
+ }
+ UNION
+ {
+ $node a skos:Concept .
+ $node skos:narrower|^skos:broader ?uri .
+ }
+ }
+ ?uri skos:prefLabel ?label .
+ FILTER(lang(?label) = $lang)
+ OPTIONAL { ?uri skos:narrower|^skos:broader ?children }
+ BIND(IF(bound(?children),true,false) AS ?hasChildren)
+
+ OPTIONAL {
+ ?x a $domain .
+ ?x $property ?uri .
+ }
+}
+GROUP BY ?uri ?label ?hasChildren
+ORDER BY ?label""" .
+
+this:tree_root_products a config-datasources:SparqlDatasource;
+  config-datasources:queryString """PREFIX wto: <https://data.wto.org/ontology#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?uri ?label WHERE {
+ ?uri a skos:Concept .
+ ?uri skos:topConceptOf <https://data.wto.org/authority/product> .
+ ?uri skos:prefLabel ?label .
+ FILTER(lang(?label) = $lang)
+}
+ORDER BY ?label""" .
