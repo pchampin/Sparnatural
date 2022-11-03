@@ -81,7 +81,7 @@ module.exports = {
 		new WriteFilePlugin(),
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
-			template: __dirname + "/static/demo-dpedia/index.html",
+			template: __dirname + "/src/index.html",
 			inject: 'body'
 		}),
 		new MiniCssExtractPlugin({
@@ -90,7 +90,9 @@ module.exports = {
 		}),
 		new CopyPlugin({
 		  patterns: [
-			{from:__dirname +'/static'}
+			{
+				from:__dirname +'/static'
+			}
 		  ]
 		}),
 		new DashboardPlugin(),
@@ -102,7 +104,7 @@ module.exports = {
   ],
 	devServer: {
 		static:{
-			directory: path.resolve(__dirname, "./dist"),
+			directory: path.resolve(__dirname, "./static"),
 		},
 		historyApiFallback: true,
 		open: true,
