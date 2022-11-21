@@ -40,9 +40,10 @@ spar-natural {
 		}
 		
 		// in order to work properly even if no bootstrap included
+		font-family: system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;
 		*, ::after, ::before {
 			box-sizing: border-box;
-		}		
+		}
 	}
 }
 
